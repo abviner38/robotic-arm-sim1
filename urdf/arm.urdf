@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot name="minimal_3dof_arm">
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.08" radius="0.10"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+      <mass value="1.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.015"/>
+    </inertial>
+  </link>
+
+  <!-- Link 1 (Shoulder / Turret) -->
+  <link name="link_1">
+    <visual>
+      <origin xyz="0 0 0.12" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.06 0.06 0.24"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.2 0.4 0.8 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0.12" rpy="0 0 0"/>
+      <mass value="0.6"/>
+      <inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <!-- Joint 1 (Base Yaw around Z) -->
+  <joint name="joint_1_yaw" type="revolute">
+    <parent link="base_link"/>
+    <child link="link_1"/>
+    <origin xyz="0 0 0.04" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="10.0" velocity="2.0"/>
+  </joint>
+
+  <!-- Link 2 (Upper Arm) -->
+  <link name="link_2">
+    <visual>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.30"/>
+      </geometry>
+      <material name="teal">
+        <color rgba="0.1 0.7 0.6 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.004" ixy="0.0" ixz="0.0" iyy="0.004" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <!-- Joint 2 (Shoulder Pitch around Y) -->
+  <joint name="joint_2_shoulder" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <origin xyz="0 0 0.24" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="2.0"/>
+  </joint>
+
+  <!-- Link 3 (Forearm / End-Effector) -->
+  <link name="link_3">
+    <visual>
+      <origin xyz="0 0 0.11" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.04 0.22"/>
+      </geometry>
+      <material name="orange">
+        <color rgba="0.9 0.5 0.1 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0.11" rpy="0 0 0"/>
+      <mass value="0.3"/>
+      <inertia ixx="0.002" ixy="0.0" ixz="0.0" iyy="0.002" iyz="0.0" izz="0.0005"/>
+    </inertial>
+  </link>
+
+  <!-- Joint 3 (Elbow Pitch around Y) -->
+  <joint name="joint_3_elbow" type="revolute">
+    <parent link="link_2"/>
+    <child link="link_3"/>
+    <origin xyz="0 0 0.30" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-2.0" upper="2.0" effort="8.0" velocity="2.0"/>
+  </joint>
+
+</robot>
